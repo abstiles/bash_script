@@ -2,7 +2,7 @@
 
 # The following options enable a kind of strict mode: exit script when a
 # command fails, and fail when accessing undefined variables.
-set -eu
+set -Eu
 set -o pipefail
 
 # Allow setting via environment, falling back to a default
@@ -30,6 +30,13 @@ function usage {
 function STDERR {
 	cat >&2
 }
+
+# Set an error handler to log the location of an error before exiting
+function _exit_err {
+	local retval=$1
+	STDERR <<< "ERROR: $BASH_SOURCE: line $BASH_LINENO: $BASH_COMMAND"
+	exit $retval
+}; trap '_exit_err $?' ERR
 
 # Process options, filter out positional arguments
 declare -a positional_args
