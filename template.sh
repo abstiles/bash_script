@@ -64,7 +64,7 @@ function main {
 
 	local i=0
 	echo "Positional args:"
-	for arg in "$@"; do
+	for arg; do
 		i=$((i + 1))
 		echo "    $i) $arg"
 	done
