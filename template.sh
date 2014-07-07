@@ -44,7 +44,7 @@ while (( $# )); do
 	case $1 in
 		--help|-h)    usage; exit ;;
 		--example|-x) example_opt="$2"; shift ;;
-		--example=*)  example_opt=${1/--example=/} ;;
+		--example=*)  example_opt=${1#*=} ;;
 		--) # Remaining args are to be treated as positional
 			shift
 			# Consume the rest of the arguments
