@@ -45,11 +45,7 @@ while (( $# )); do
 		--help|-h)    usage; exit ;;
 		--example|-x) example_opt="$2"; shift ;;
 		--example=*)  example_opt=${1#*=} ;;
-		--) # Remaining args are to be treated as positional
-			shift
-			# Consume the rest of the arguments
-			while (( $# )); do positional_args+=("$1"); done
-			;;
+		--) shift; break ;;
 		-*) STDERR <<< "ERROR: Unrecognized option"; exit 1 ;;
 		*) positional_args+=("$1") ;;
 	esac
