@@ -36,12 +36,19 @@ function _exit_err {
 
 # Process options, filter out positional arguments
 declare -a positional_args
+arg_flags=x
 while (( $# )); do
 	case $1 in
 		--help|-h)    usage; exit ;;
 		--example|-x) example_opt="$2"; shift ;;
-		--example=*)  example_opt=${1#*=} ;;
 		--) shift; break ;;
+		# Handle GNU-style long options with arguments, e.g., "--example=value"
+		--*=*) set -- "${1%%=*}" "${1#*=}" "${@:2}"; continue ;;
+		# Handle POSIX-style short option chaining, e.g., "-xvf"
+		-[^-]?*) if [[ ${1:1:1} =~ [$arg_flags] ]]
+		         then set -- "${1:0:2}" "${1:2}" "${@:2}"
+		         else set -- "${1:0:2}" "-${1:2}" "${@:2}"
+		         fi; continue ;;
 		-*) error "ERROR: Unrecognized option $1\n$(usage)" ;;
 		*) positional_args+=("$1") ;;
 	esac
@@ -50,8 +57,10 @@ done
 # Handle the positional arguments
 if (( ${#positional_args[@]} > 0 )); then
 	set -- "${positional_args[@]}" "$@"
-	unset positional_args # Don't pollute the global namespace
 fi
+# Don't pollute the global namespace; remove globals used in arg processing
+unset arg_flags
+unset positional_args
 
 function main {
 	# Use the value set by the options, falling back to the global variable
