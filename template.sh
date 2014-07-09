@@ -27,9 +27,7 @@ function usage {
 }
 
 # For convenience, you can pipe to STDERR for error output
-function STDERR {
-	cat >&2
-}
+function STDERR { cat >&2; }
 
 # Set an error handler to log the location of an error before exiting
 function _exit_err {
