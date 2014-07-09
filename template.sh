@@ -22,9 +22,7 @@ Options:
     --help, -h           Prints this usage information and exits.
 "
 
-function usage {
-	echo "$USAGE"
-}
+function usage { echo "$USAGE"; }
 
 # For convenience, you can pipe to STDERR for error output
 function STDERR { cat >&2; }
