@@ -24,13 +24,13 @@ Options:
 
 function usage { echo "$USAGE"; }
 
-# For convenience, you can pipe to STDERR for error output
-function STDERR { cat >&2; }
+# Logs message to stderr, then terminates with nonzero exit code
+function error { printf "$1\n" "${@:2}" >&2; exit 1; }
 
 # Set an error handler to log the location of an error before exiting
 function _exit_err {
 	local retval=$1
-	STDERR <<< "ERROR: $BASH_SOURCE: line $BASH_LINENO: $BASH_COMMAND"
+	echo "ERROR: $BASH_SOURCE: line $BASH_LINENO: $BASH_COMMAND" >&2
 	exit $retval
 }; trap '_exit_err $?' ERR
 
@@ -42,7 +42,7 @@ while (( $# )); do
 		--example|-x) example_opt="$2"; shift ;;
 		--example=*)  example_opt=${1#*=} ;;
 		--) shift; break ;;
-		-*) STDERR <<< "ERROR: Unrecognized option"; exit 1 ;;
+		-*) error "ERROR: Unrecognized option $1\n$(usage)" ;;
 		*) positional_args+=("$1") ;;
 	esac
 	shift
