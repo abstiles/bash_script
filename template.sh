@@ -51,7 +51,7 @@ while (( $# )); do
 done
 # Handle the positional arguments
 if (( ${#positional_args[@]} > 0 )); then
-	set -- "${positional_args[@]}"
+	set -- "${positional_args[@]}" "$@"
 	unset positional_args # Don't pollute the global namespace
 fi
 
