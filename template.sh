@@ -64,7 +64,7 @@ unset positional_args
 
 function main {
 	# Use the value set by the options, falling back to the global variable
-	local example_var=${example_opt:-$EXAMPLE}
+	local example_var=${example_opt-$EXAMPLE}
 	echo "Example var: $example_var"
 
 	local i=0
