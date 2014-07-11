@@ -71,8 +71,8 @@ unset positional_args
 
 function main {
 	# Use the value set by the options, falling back to the global variable
-	local example_var=${example_opt-$EXAMPLE}
-	log "Example var: %s" "'$example_var'"
+	local example=${example_opt-$EXAMPLE}
+	log "Example var: %s" "'$example'"
 	log "Verbosity: %4d" "${verbosity:=0}"
 	log "Positional args:"
 	local i; for (( i=1; i < $#; ++i )); do log "%5d) %s" "$i" "${!i}"; done
