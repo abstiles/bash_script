@@ -52,7 +52,7 @@ while (( $# )); do
 		# Handle GNU-style long options with arguments, e.g., "--example=value"
 		--?*=*) set -- "${1%%=*}" "${1#*=}" "${@:2}"; continue ;;
 		# Handle POSIX-style short option chaining, e.g., "-xvf"
-		-[^-]?*) if [[ ${1:1:1} =~ [$arg_flags] ]]
+		-[^-]?*) if [[ ${1:1:1} =~ [${arg_flags-}] ]]
 		         then set -- "${1:0:2}" "${1:2}" "${@:2}"
 		         else set -- "${1:0:2}" "-${1:2}" "${@:2}"
 		         fi; continue ;;
