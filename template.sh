@@ -45,8 +45,8 @@ arg_flags=x
 while (( $# )); do
 	case $1 in
 		--help|-h)    usage; exit ;;
-		-v) verbosity=$(( ${verbosity:-0} + 1 )) ;;
-		--verbosity) verbosity=$(printf %d $2); shift ;;
+		--verbose|-v) verbosity=$(( ${verbosity:-0} + 1 )) ;;
+		--verbosity)  verbosity=$(printf %d $2); shift ;;
 		--example|-x) example_opt="$2"; shift ;;
 		--) shift; break ;;
 		# Handle GNU-style long options with arguments, e.g., "--example=value"
