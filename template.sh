@@ -21,7 +21,6 @@ Options:
                              DEFAULT: \"default\"
     --help, -h           Prints this usage information and exits.
 "
-
 function usage { echo "$USAGE"; }
 
 # Logs message to stderr, then terminates with nonzero exit code
@@ -75,7 +74,6 @@ function main {
 	local example_var=${example_opt-$EXAMPLE}
 	log "Example var: %s" "'$example_var'"
 	log "Verbosity: %4d" "${verbosity:=0}"
-
 	log "Positional args:"
 	local i; for (( i=1; i < $#; ++i )); do log "%5d) %s" "$i" "${!i}"; done
 }
