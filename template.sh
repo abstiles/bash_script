@@ -75,7 +75,7 @@ function main {
 	log "Example var: %s" "'$example'"
 	log "Verbosity: %4d" "${verbosity:=0}"
 	log "Positional args:"
-	local i; for (( i=1; i < $#; ++i )); do log "%5d) %s" "$i" "${!i}"; done
+	local i; for (( i=1; i <= $#; ++i )); do log "%5d) %s" "$i" "${!i}"; done
 }
 
 main "$@"
