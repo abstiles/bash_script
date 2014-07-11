@@ -26,6 +26,12 @@ function usage { echo "$USAGE"; }
 
 # Logs message to stderr, then terminates with nonzero exit code
 function error { printf "$1\n" "${@:2}" >&2; exit 1; }
+# Log messages to stdout based on verbosity setting. Hidden by default.
+function log {
+	local level=1;
+	if [[ $1 == -l ]]; then level=$(printf %d $2); shift 2; fi
+	if (( $level <= ${verbosity:-0} )); then printf "$1\n" "${@:2}"; fi
+}
 
 # Set an error handler to log the location of an error before exiting
 function _exit_err {
@@ -40,6 +46,8 @@ arg_flags=x
 while (( $# )); do
 	case $1 in
 		--help|-h)    usage; exit ;;
+		-v) verbosity=$(( ${verbosity:-0} + 1 )) ;;
+		--verbosity) verbosity=$(printf %d $2); shift ;;
 		--example|-x) example_opt="$2"; shift ;;
 		--) shift; break ;;
 		# Handle GNU-style long options with arguments, e.g., "--example=value"
@@ -65,14 +73,11 @@ unset positional_args
 function main {
 	# Use the value set by the options, falling back to the global variable
 	local example_var=${example_opt-$EXAMPLE}
-	echo "Example var: $example_var"
+	log "Example var: %s" "'$example_var'"
+	log "Verbosity: %4d" "${verbosity:=0}"
 
-	local i=0
-	echo "Positional args:"
-	for arg; do
-		i=$((i + 1))
-		echo "    $i) $arg"
-	done
+	log "Positional args:"
+	local i; for (( i=1; i < $#; ++i )); do log "%5d) %s" "$i" "${!i}"; done
 }
 
 main "$@"
