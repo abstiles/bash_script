@@ -56,7 +56,7 @@ while (( $# )); do
 		         then set -- "${1:0:2}" "${1:2}" "${@:2}"
 		         else set -- "${1:0:2}" "-${1:2}" "${@:2}"
 		         fi; continue ;;
-		-*) error "ERROR: Unrecognized option $1\n$(usage)" ;;
+		-?*) error "ERROR: Unrecognized option $1\n$(usage)" ;;
 		*) positional_args+=("$1") ;;
 	esac
 	shift
